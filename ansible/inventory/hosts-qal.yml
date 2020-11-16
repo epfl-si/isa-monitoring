@@ -1,0 +1,12 @@
+all:
+  vars:
+    runenv: qal
+
+isa:
+  children:
+    isa_qal
+
+isa_qal:
+  hosts:
+    isaqal09: {}
+    isaqal10: {}
