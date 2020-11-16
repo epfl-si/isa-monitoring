@@ -1,0 +1,20 @@
+- name: Install epel repository
+  yum:
+    name: http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+- name: Download docker RPM
+  shell:
+    creates: "/usr/local/RPMS/{{ docker_engine_rpm_name }}"
+    cmd: |
+      set -e -x
+      mkdir -p /usr/local/RPMS || true
+      cd /usr/local/RPMS
+      wget "{{ docker_engine_download_base_url }}{{ docker_engine_rpm_name }}"
+- name: Install docker RPM
+  yum:
+    name: "/usr/local/RPMS/{{ docker_engine_rpm_name }}"
+    state: latest
+- name: Start docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes

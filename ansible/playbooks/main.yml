@@ -10,15 +10,6 @@
   hosts: all
   gather_facts: no   # Not yet
   tasks:
-    - name: Install epel repository
-      yum_repository:
-        name: epel
-        description: EPEL YUM repo
-        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-    - name: Install docker repository
-      yum_repository:
-        name: docker
-        description: Docker repo
-        baseurl: https://yum.dockerproject.org/repo/main/centos/$releasever/
-        gpgcheck: 1  
-        gpgkey: https://yum.dockerproject.org/gpg
+    - name: Install and run Docker
+      import_tasks: ../tasks/docker.yml
+      tags: docker
