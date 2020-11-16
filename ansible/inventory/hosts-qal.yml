@@ -1,6 +1,8 @@
 all:
   vars:
     runenv: qal
+    ansible_become: yes
+    ansible_become_method: sudo
 
 isa:
   children:
