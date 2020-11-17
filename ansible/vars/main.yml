@@ -1,4 +1,21 @@
+install_path: '/srv/isa'
+data_path: "/volumes/data1/isa/data"
+
+frontend:
+  domain: isa-monitoring
+  #domain: idev-fsd.ml
+  #protocol: https
+  #htpass: "{% set comma = joiner(', ') %}{% for cred in _noc_secrets.frontend.credentials %}{{ comma() }}{{ cred.user }}:{{ cred.pass | password_hash('bcrypt', _noc_secrets.frontend.salt) }}{% endfor %}"
+
+# Docker
 docker_engine_version: 1.7.1
 docker_engine_rpm_release: 1
 docker_engine_rpm_name: "docker-engine-{{ docker_engine_version }}-{{ docker_engine_rpm_release }}.el6.x86_64.rpm"
 docker_engine_download_base_url: https://get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/
+
+# Prometheus
+# vars for prometheus
+prometheus_port: 9090
+prometheus_container_name: "prometheus"
+prometheus_image: "prom/prometheus"
+prometheus_version: "v2.20.1"

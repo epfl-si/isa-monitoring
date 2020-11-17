@@ -13,3 +13,6 @@
     - name: Install and run Docker
       import_tasks: ../tasks/docker.yml
       tags: docker
+    - name: Install and run prometheus
+      import_tasks: ../tasks/prometheus.yml
+      tags: prometheus

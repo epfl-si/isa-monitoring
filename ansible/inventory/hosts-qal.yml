@@ -3,6 +3,7 @@ all:
     runenv: qal
     ansible_become: yes
     ansible_become_method: sudo
+    dnspostfix: "-tst"
 
 isa:
   children:

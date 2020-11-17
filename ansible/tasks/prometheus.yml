@@ -1,0 +1,57 @@
+# ------------------------------------------------------------------ Directories
+- name: Create writable directories to be used as mount points
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "u=rwx,g=rwx,o=rwx"
+  with_items:
+    - "{{ install_path }}/prometheus"
+    #- "{{ install_path }}/prometheus/dynamic"
+
+# -------------------------------------------------------------------- Templates
+- name: Copy prometheus template configs
+  template:
+    src: "prometheus/{{ item }}"
+    dest: "{{ install_path }}/prometheus/{{ item }}"
+  with_items:
+    - prometheus.yml
+    #- rules/alert-all-the-time-for-tests.yml
+    #- rules/c2c_federate.yml
+  register: _prometheus_template_file
+
+# -------------------------------------------------------------------- Prometheus
+# - name: Install pip
+#   yum:
+#     name: python-pip
+#     state: latest
+
+# - name: Install docker-py python package
+#   pip:
+#     name: docker-py
+#     state: present
+
+# - name: Install docker python package
+#   pip:
+#     name: docker
+#     state: absent
+
+
+- name: Run prometheus
+  docker_container:
+    name: "{{ prometheus_container_name }}"
+    image: "{{ prometheus_image }}:{{ prometheus_version }}"
+    # command: >-
+    #   --config.file=/etc/prometheus/prometheus.yml
+    #   --web.external-url=https://prometheus{{ dnspostfix }}.{{ frontend.domain }}
+    #   {% if runenv == "isa_qal" %}
+    #     --log.level=debug
+    #   {% endif %}
+    # detach: yes
+    # restart_policy: unless-stopped
+    # volumes:
+    #   - "{{ install_path }}/prometheus:/etc/prometheus"
+    #   - "{{ data_path }}/prometheus:/prometheus"
+    # log_driver: json-file
+    # log_options:
+    #   max-size: 50m
+    #   max-file: "3"
