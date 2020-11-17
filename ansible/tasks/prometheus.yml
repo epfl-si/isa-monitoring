@@ -21,7 +21,7 @@
 
 
 - name: Run prometheus
-  docker_container:
+  community.docker.docker_container:
     name: "{{ prometheus_container_name }}"
     image: "{{ prometheus_image }}:{{ prometheus_version }}"
     # command: >-

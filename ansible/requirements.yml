@@ -1,2 +1,4 @@
 collections:
-  - community.general
+  - name: https://github.com/epfl-si/community.docker.git
+    type: git
+    version: backport/docker_api_v1_19
