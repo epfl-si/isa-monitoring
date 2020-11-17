@@ -5,6 +5,12 @@
     name: python-pip
     state: latest
 
+- name: Set urllib3 to a version that works
+  pip:
+    name: urllib3
+    version: 1.10.2
+    state: present
+
 - name: Install docker-py python package
   pip:
     name: docker-py
