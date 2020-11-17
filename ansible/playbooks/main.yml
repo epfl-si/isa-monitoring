@@ -10,6 +10,9 @@
   hosts: all
   gather_facts: no   # Not yet
   tasks:
+    - name: Install Python dependencies for Ansible
+      import_tasks: ../tasks/ansible-deps.yml
+      tags: deps
     - name: Install and run Docker
       import_tasks: ../tasks/docker.yml
       tags: docker

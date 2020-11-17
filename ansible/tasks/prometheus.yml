@@ -19,22 +19,6 @@
     #- rules/c2c_federate.yml
   register: _prometheus_template_file
 
-# -------------------------------------------------------------------- Prometheus
-# - name: Install pip
-#   yum:
-#     name: python-pip
-#     state: latest
-
-# - name: Install docker-py python package
-#   pip:
-#     name: docker-py
-#     state: present
-
-# - name: Install docker python package
-#   pip:
-#     name: docker
-#     state: absent
-
 
 - name: Run prometheus
   docker_container:

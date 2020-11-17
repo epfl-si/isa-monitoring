@@ -1,0 +1,11 @@
+# Install Ansible-required Python code on the remote nodes
+
+- name: Install pip
+  yum:
+    name: python-pip
+    state: latest
+
+- name: Install docker-py python package
+  pip:
+    name: docker-py
+    state: present
