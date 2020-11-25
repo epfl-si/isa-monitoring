@@ -16,6 +16,9 @@
     - name: Install and run Docker
       import_tasks: ../tasks/docker.yml
       tags: docker
+    - name: Change apache conf
+      import_tasks: ../tasks/apache-conf.yml
+      tags: apache_conf
     - name: Run apache exporter
       import_tasks: ../tasks/apache-exporter.yml
       tags: apache_exporter

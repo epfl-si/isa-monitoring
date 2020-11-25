@@ -1,0 +1,55 @@
+- name: Check if apache config
+  shell:
+    cmd: |
+      result=$( cat /etc/httpd/conf.d/EPFL_isa.conf | grep "<Location /server-status>" -A 6)
+      if [result == ""]
+      then
+        echo 0
+      else
+        echo 1
+      fi
+  register: apache_block_present
+
+- debug:
+    msg: "{{ apache_block_present.stdout }}"
+
+- name: Set up .conf to serve status apache page
+  when: not apache_block_present.stdout
+  blockinfile:
+    path: "/etc/httpd/conf.d/EPFL_isa.conf"
+    marker: "# {mark} apache server status"
+    block: |
+      <Location /server-status>
+        SetHandler server-status
+ 
+        Order Deny,Allow
+        Deny from all
+        Allow from 127.0.0.1
+      </Location>
+
+- name: Check if apache proxy pass block is present in ssl.conf file
+  shell:
+    cmd: |
+      result=$( cat /etc/httpd/conf.d/ssl.conf | grep "ProxyPass /prom/ http://127.0.0.1:8888/prom/" -A 4)
+      if [result == ""]
+      then
+        echo 0
+      else
+        echo 1
+      fi
+  register: apache_proxypass_block_present
+
+- debug:
+    msg: "{{ apache_proxypass_block_present.stdout }}"
+
+- name: Ensure that apache proxypass block is present
+  when: not apache_proxypass_block_present.stdout
+  blockinfile:
+    path: "/etc/httpd/conf.d/ssl.conf"
+    marker: "# {mark} apache proxypass block"
+    block: |
+      ProxyPass /prom/ http://127.0.0.1:8888/prom/
+      ProxyPassReverse /prom/ http://127.0.0.1:8888/prom/
+  
+      ProxyPass /metrics http://127.0.0.1:9117/metrics
+      ProxyPassReverse /metrics http://127.0.0.1:9117/metrics
