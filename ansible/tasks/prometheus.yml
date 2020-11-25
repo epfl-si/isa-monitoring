@@ -23,8 +23,9 @@
   community.docker.docker_container:
     name: "{{ prometheus_container_name }}"
     image: "{{ prometheus_image }}:{{ prometheus_version }}"
-    links:
-      - apache_exporter
+    #links:
+    #  - apache_exporter
+    network_mode: "host"
     ports: 
       - "8888:9090"
     command: >-
