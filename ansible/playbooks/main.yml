@@ -17,11 +17,13 @@
       import_tasks: ../tasks/docker.yml
       tags: docker
     - name: Change apache conf
-      import_tasks: ../tasks/apache-conf.yml
-      tags: apache_conf
-    - name: iptables rules
-      import_tasks: ../tasks/iptables-rules.yml
-      tags: iptables
+      include_tasks:
+        file: ../tasks/apache-conf.yml
+        apply:
+          tags: apache_conf
+      tags:
+        - apache_conf
+        - apache_conf.restart
     - name: Run apache exporter
       import_tasks: ../tasks/apache-exporter.yml
       tags: apache_exporter

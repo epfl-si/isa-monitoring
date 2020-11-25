@@ -26,6 +26,7 @@
         Deny from all
         Allow from 127.0.0.1
       </Location>
+  register: _apache_config
 
 - name: Check if apache proxy pass block is present in ssl.conf file
   shell:
@@ -53,3 +54,11 @@
   
       ProxyPass /metrics http://127.0.0.1:9117/metrics
       ProxyPassReverse /metrics http://127.0.0.1:9117/metrics
+- name: restart Apache
+  tags: apache_conf.restart
+  when: >-
+    ( (_apache_config | default({})) is changed )
+    or
+    ('apache_conf.restart' in ansible_run_tags)
+  command: |
+    apachectl graceful
