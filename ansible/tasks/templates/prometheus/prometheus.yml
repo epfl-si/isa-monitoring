@@ -1,8 +1,37 @@
-# A scrape configuration scraping a Node Exporter and the Prometheus server
-# itself.
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
 scrape_configs:
-  # Scrape Prometheus itself every 10 seconds.
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
-    scrape_interval: 10s
-    target_groups:
-      - targets: ['localhost:9090']
+    metrics_path: '/prom/metrics'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    
+    honor_labels: true  
+
+    # The targets have to match the docker-compose service name/port !
+    static_configs:
+    - targets: 
+      - 'localhost:9090'
+      labels:                           
+        server: "{{ inventory_hostname }}"
+
+    metric_relabel_configs:
+      # Extract the bridge name into the job label
+      - target_label: "instance"
+        replacement: "{{ inventory_hostname }}"
+
+    #relabel_configs:
+    #  - target_label: __address__
+    #    replacement: "{{ inventory_hostname }}"
+
+  - job_name: "apache"
+    metrics_path: '/metrics'
+    scrape_interval: "15s"
+    static_configs:
+    - targets: ['apache_exporter:9117']
+    # relabel_configs:
+    #   - target_label: [__address__]
+    #     replacement: "{{ inventory_hostname }}"
+

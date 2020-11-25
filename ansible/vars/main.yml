@@ -1,5 +1,5 @@
 install_path: '/srv/isa'
-data_path: "/volumes/data1/isa/data"
+data_path: "/srv/isa/prometheus-data"
 
 frontend:
   domain: isa-monitoring
@@ -18,4 +18,4 @@ docker_engine_download_base_url: https://get.docker.com/rpm/1.7.1/centos-6/RPMS/
 prometheus_port: 9090
 prometheus_container_name: "prometheus"
 prometheus_image: "prom/prometheus"
-prometheus_version: "v2.20.1"
+prometheus_version: "latest"

@@ -11,6 +11,12 @@
     version: 1.10.2
     state: present
 
+- name: Set requests to a version that works
+  pip:
+    name: requests
+    version: 2.6.0
+    state: present
+
 - name: Install docker-py python package
   pip:
     name: docker-py
