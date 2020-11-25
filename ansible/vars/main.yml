@@ -13,6 +13,10 @@ docker_engine_rpm_release: 1
 docker_engine_rpm_name: "docker-engine-{{ docker_engine_version }}-{{ docker_engine_rpm_release }}.el6.x86_64.rpm"
 docker_engine_download_base_url: https://get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/
 
+# TODO: maybe we should probe this as a fact
+# Obtainable with
+# docker run --rm alpine ip route | perl -ne 'm/default via ([0-9.]+)/ && print "$1\n";'
+docker_host_ip: 172.17.42.1
 docker_containers_cidr_range: 172.16.0.0/15
 
 # Prometheus

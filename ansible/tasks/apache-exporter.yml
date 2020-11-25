@@ -2,26 +2,5 @@
   community.docker.docker_container:
     name: apache_exporter
     image: solsson/prometheus-exporter-apache
-    #ports:
-    #  - "9117:9117"
-    network_mode: "host"
     command: >-
-      --scrape_uri="http://localhost/server-status?auto"
-
-
-    # --scrape_uri="https://isaqualite.epfl.ch/server09-status?auto"
-    # --scrape_uri="https://localhost/server-status?auto"
-
-#    links: 
-#      - prometheus
-# - name: Create a network
-#   community.general.docker_network:
-#     name: network_epfl_isa
-
-# - name: Remove all but selected list of containers
-#   community.general.docker_network:
-#     name: network_epfl_isa
-#     connected:
-#       - prometheus
-#       - apache_exporter
-
+      --scrape_uri="http://{{ docker_host_ip }}/server-status?auto"
