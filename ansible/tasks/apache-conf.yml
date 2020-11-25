@@ -25,7 +25,7 @@
         Deny from all
         # Allow from both Docker containers and localhost:
         Allow from 127.0.0.1 {{ docker_containers_cidr_range }}
-        </Location>
+      </Location>
   register: _apache_config
 
 - name: restart Apache
