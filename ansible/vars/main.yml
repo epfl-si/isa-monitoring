@@ -13,6 +13,8 @@ docker_engine_rpm_release: 1
 docker_engine_rpm_name: "docker-engine-{{ docker_engine_version }}-{{ docker_engine_rpm_release }}.el6.x86_64.rpm"
 docker_engine_download_base_url: https://get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/
 
+docker_containers_cidr_range: 172.16.0.0/15
+
 # Prometheus
 # vars for prometheus
 prometheus_port: 9090
