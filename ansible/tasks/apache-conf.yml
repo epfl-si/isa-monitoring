@@ -1,20 +1,19 @@
-- name: Check if apache config
+- name: Check if Apache already configures /server-status
   shell:
     cmd: |
-      result=$( cat /etc/httpd/conf.d/EPFL_isa.conf | grep "<Location /server-status>" -A 6)
-      if [result == ""]
-      then
-        echo 0
-      else
-        echo 1
-      fi
-  register: apache_block_present
+      conf_has_string() {
+        grep "$1" /etc/httpd/conf.d/EPFL_isa.conf
+      }
 
-- debug:
-    msg: "{{ apache_block_present.stdout }}"
+      if conf_has_string "# BEGIN apache server status"; then exit 0; fi
+      if conf_has_string "<Location /server-status>"; then exit 2; fi
+      exit 0
+  register: _server_status_block_present
+  changed_when: false
+  ignore_errors: true
 
 - name: Set up .conf to serve status apache page
-  when: not apache_block_present.stdout
+  when: not _server_status_block_present is failed
   blockinfile:
     path: "/etc/httpd/conf.d/EPFL_isa.conf"
     marker: "# {mark} apache server status"
