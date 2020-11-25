@@ -19,6 +19,9 @@
     - name: Change apache conf
       import_tasks: ../tasks/apache-conf.yml
       tags: apache_conf
+    - name: iptables rules
+      import_tasks: ../tasks/iptables-rules.yml
+      tags: iptables
     - name: Run apache exporter
       import_tasks: ../tasks/apache-exporter.yml
       tags: apache_exporter
