@@ -1,0 +1,57 @@
+---
+# tasks file for idevfsd-traefik
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "755"
+  tags:
+    - traefik
+  with_items:
+    - "{{ traefik_state_path }}/dynamic"
+    - "{{ data_path }}/traefik/acme/"
+
+- name: Copy traefik static config
+  template:
+    src: "traefik/traefik.yml"
+    dest: "{{ traefik_state_path }}/traefik.yml"
+  tags:
+    - traefik
+  register: _traefik_config
+
+- name: Copy traefik dynamic config
+  template:
+    src: "traefik/{{ item }}"
+    dest: "{{ traefik_state_path }}/dynamic/{{ item }}"
+  tags:
+    - traefik
+  with_items:
+    - traefik-dynamic.yml
+
+- name: Run traefik
+  community.docker.docker_container:
+    name: "{{ traefik_container_name }}"
+    image: "{{ traefik_image }}:{{ traefik_version }}"
+    links:
+      - apache_exporter
+      - prometheus
+    detach: yes
+    #restart: "{{ _traefik_config is changed }}"
+    #restart_policy: unless-stopped
+    ports:
+      - "81:80"     # The HTTP port
+      - "8443:443"  # The HTTPs port
+      - "8080:8080" 
+    volumes:
+      #- /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - "{{ traefik_state_path }}/traefik.yml:/traefik.yml"
+      - "{{ traefik_state_path }}/dynamic:/etc/traefik/dynamic"
+      - "{{ traefik_state_path }}/ssl:/etc/traefik/ssl"
+      #- "{{ data_path }}/traefik/acme:/acme"
+    log_driver: json-file
+    log_options:
+      max-size: 50m
+      max-file: "3"
+  tags:
+    - traefik

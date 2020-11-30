@@ -1,0 +1,40 @@
+http:
+  # Add the router
+  routers:
+    router0:
+      entryPoints:
+      - web
+      middlewares:
+      - isa-basic-auth
+      service: service-isa
+      rule: "PathPrefix(`/`)"
+    # router1:
+    #   entryPoints:
+    #   - websecure
+    #   tls: {}
+    #   service: service-isa
+    #   rule: "PathPrefix(`/`)"
+
+  # Add the middleware
+  middlewares:
+    isa-basic-auth:
+      basicAuth:
+        users:
+        - user:$apr1$q8eZFHjF$Fvmkk//V6Btlaf2i/ju5n/
+
+  # Add the service
+  services:
+    service-isa:
+      loadBalancer:
+        servers:
+        - url: http://prometheus:9090/
+
+# tls:
+#   certificates:
+#     - certFile: /srv/isa/traefik/ssl/cert.pem
+#       keyFile: /srv/isa/traefik/ssl/privkey.pem
+#   stores:
+#     default:
+#       defaultCertificate:
+#         - certFile: /srv/isa/traefik/ssl/cert.pem
+#         - keyFile: /srv/isa/traefik/ssl/privkey.pem

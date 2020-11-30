@@ -16,6 +16,12 @@
     - name: Install and run Docker
       import_tasks: ../tasks/docker.yml
       tags: docker
+    - name: iptables rules
+      import_tasks: ../tasks/iptables_rules.yml
+      tags: iptables
+    - name: Manage ssl (private key and certificat)
+      import_tasks: ../tasks/ssl.yml
+      tags: ssl
     - name: Change apache conf
       include_tasks:
         file: ../tasks/apache-conf.yml
@@ -30,3 +36,6 @@
     - name: Install and run prometheus
       import_tasks: ../tasks/prometheus.yml
       tags: prometheus
+    - name: traefik
+      import_tasks: ../tasks/traefik.yml
+      tags: traefik
