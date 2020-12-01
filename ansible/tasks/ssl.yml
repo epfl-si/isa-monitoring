@@ -2,7 +2,7 @@
   command:
     cmd: openssl genrsa -out privkey.pem 2048
     creates: /srv/isa/traefik/ssl/privkey.pem
-
+  
 - name: Generate certificat if cert.pem file doesn't exist
   command:
     cmd: openssl req -new -x509 -batch -subj "/CN=isaqal09.epfl.ch" -days 300000 -out cert.pem -key privkey.pem

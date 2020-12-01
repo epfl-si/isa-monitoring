@@ -3,7 +3,7 @@
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
-    metrics_path: '/prom/metrics'
+    metrics_path: '/metrics'
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
@@ -30,7 +30,7 @@ scrape_configs:
     metrics_path: '/metrics'
     scrape_interval: "15s"
     static_configs:
-    - targets: ['apache_exporter:9117', 'localhost:9117']
+    - targets: ['apache_exporter:9117']
     # relabel_configs:
     #   - target_label: [__address__]
     #     replacement: "{{ inventory_hostname }}"

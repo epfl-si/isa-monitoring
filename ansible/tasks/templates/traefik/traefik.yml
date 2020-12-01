@@ -5,15 +5,6 @@ global:
 providers:
   file:
     directory: "/etc/traefik/dynamic"
-  #docker: {}
-  # Point to the so-called “dynamic” configuration, managed by
-  # Ansible
-  # file:
-  #   directory: /etc/traefik/dynamic
-  #   watch: true
-  # Additionally, read Docker container labels as a dynamic configuration source.
-  #docker:
-  #  exposedByDefault: false
 
 log:
   level: DEBUG
@@ -22,23 +13,8 @@ api:
   dashboard: true
   insecure: true
 
-# metrics:
-#   prometheus:
-#     manualRouting: true # https://docs.traefik.io/observability/metrics/prometheus/#manualrouting
-#     entryPoint: web
-
 entryPoints:
   web:
     address: ":80"
-#   websecure:
-#     address: ":443"
-
-# tls:
-#   certificates:
-#     - certFile: /srv/isa/traefik/ssl/cert.pem
-#       keyFile: /srv/isa/traefik/ssl/privkey.pem
-#   stores:
-#     default:
-#       defaultCertificate:
-#         - certFile: /srv/isa/traefik/ssl/cert.pem
-#         - keyFile: /srv/isa/traefik/ssl/privkey.pem
+  websecure:
+    address: ":443"

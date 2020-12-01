@@ -19,9 +19,9 @@
     - name: iptables rules
       import_tasks: ../tasks/iptables_rules.yml
       tags: iptables
-    - name: Manage ssl (private key and certificat)
-      import_tasks: ../tasks/ssl.yml
-      tags: ssl
+#    - name: Manage ssl (private key and certificat)
+#      import_tasks: ../tasks/ssl.yml
+#      tags: ssl
     - name: Change apache conf
       include_tasks:
         file: ../tasks/apache-conf.yml
