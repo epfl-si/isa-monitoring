@@ -35,3 +35,8 @@ traefik_image: traefik
 traefik_version: latest
 traefik_web_ui_port: 9199
 traefik_debug: '{{ dnspostfix == "-tst" }}'
+
+_isa_secrets: "{{ lookup('file', '/keybase/team/epfl_isa/ansible_isa_monitoring_secrets.yml') | from_yaml }}"
+
+frontend:
+  htpass: "{% set comma = joiner(', ') %}{% for cred in _isa_secrets.frontend.credentials %}{{ comma() }}{{ cred.user }}:{{ cred.pass | password_hash('bcrypt', _isa_secrets.frontend.salt) }}{% endfor %}"

@@ -1,14 +1,14 @@
 tls:
   certificates:
-    - certFile: "/srv/isa/traefik/ssl/cert.pem"
-      keyFile: "/srv/isa/traefik/ssl/privkey.pem"
+    - certFile: "/etc/traefik/ssl/cert.pem"
+      keyFile: "/etc/traefik/ssl/privkey.pem"
       stores:
         - default
   stores:
     default:
       defaultCertificate:
-        certFile: "/srv/isa/traefik/ssl/cert.pem"
-        keyFile: "/srv/isa/traefik/ssl/privkey.pem"
+        certFile: "/etc/traefik/ssl/cert.pem"
+        keyFile: "/etc/traefik/ssl/privkey.pem"
 
 http:
   # Add the router
@@ -23,6 +23,8 @@ http:
     router1:
       entryPoints:
       - websecure
+      middlewares:
+      - isa-basic-auth
       tls: {}
       service: service-isa
       rule: "PathPrefix(`/`)"
@@ -31,8 +33,7 @@ http:
   middlewares:
     isa-basic-auth:
       basicAuth:
-        users:
-        - user:$apr1$q8eZFHjF$Fvmkk//V6Btlaf2i/ju5n/
+        users: "{{ frontend.htpass }}"
 
   # Add the service
   services:

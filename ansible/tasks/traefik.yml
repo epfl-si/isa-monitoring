@@ -51,9 +51,9 @@
   community.docker.docker_container:
     name: "{{ traefik_container_name }}"
     image: "{{ traefik_image }}:{{ traefik_version }}"
-    #links:
-    #  - apache_exporter
-    #  - prometheus
+    links:
+     - apache_exporter
+     - prometheus
     detach: yes
     ports:
       - "81:80"     # The HTTP port

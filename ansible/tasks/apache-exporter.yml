@@ -4,3 +4,4 @@
     image: solsson/prometheus-exporter-apache
     command: >-
       --scrape_uri="http://{{ docker_host_ip }}/server-status?auto"
+    detach: yes
