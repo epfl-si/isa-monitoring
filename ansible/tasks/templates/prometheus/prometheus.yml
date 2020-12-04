@@ -22,16 +22,17 @@ scrape_configs:
       - target_label: "instance"
         replacement: "{{ inventory_hostname }}"
 
-    #relabel_configs:
-    #  - target_label: __address__
-    #    replacement: "{{ inventory_hostname }}"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: {{ inventory_hostname }}
 
   - job_name: "apache"
     metrics_path: '/metrics'
     scrape_interval: "15s"
     static_configs:
     - targets: ['apache_exporter:9117']
-    # relabel_configs:
-    #   - target_label: [__address__]
-    #     replacement: "{{ inventory_hostname }}"
-
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: {{ inventory_hostname }}
