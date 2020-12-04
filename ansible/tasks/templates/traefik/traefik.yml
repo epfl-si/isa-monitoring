@@ -6,15 +6,23 @@ providers:
   file:
     directory: "/etc/traefik/dynamic"
 
-log:
-  level: DEBUG
-
-api:
-  dashboard: true
-  insecure: true
-
 entryPoints:
   web:
     address: ":80"
   websecure:
     address: ":443"
+
+{% if traefik_debug %}
+log:
+  filePath: "/var/log/traefik.log"
+  level: DEBUG
+{% else %}
+log:
+  filePath: "/var/log/traefik.log"
+{% endif %}
+
+{% if traefik_debug %}
+api:
+  dashboard: true
+  insecure: true
+{% endif %}

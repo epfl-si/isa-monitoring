@@ -40,3 +40,4 @@ traefik_state_path: "{{ install_path }}/traefik"
 traefik_container_name: traefik
 traefik_image: traefik
 traefik_version: latest
+traefik_debug: "{{ debug }}" # By default it uses the global debug variable but we can activate here only traefik debug
