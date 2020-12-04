@@ -1,11 +1,20 @@
 install_path: '/srv/isa'
 data_path: "/srv/isa/prometheus-data"
 
+_isa_secrets: "{{ lookup('file', '/keybase/team/epfl_isa/ansible_isa_monitoring_secrets.yml') | from_yaml }}"
+
 frontend:
-  domain: isa-monitoring
-  #domain: idev-fsd.ml
-  #protocol: https
-  #htpass: "{% set comma = joiner(', ') %}{% for cred in _noc_secrets.frontend.credentials %}{{ comma() }}{{ cred.user }}:{{ cred.pass | password_hash('bcrypt', _noc_secrets.frontend.salt) }}{% endfor %}"
+  htpass: "{% set comma = joiner(', ') %}{% for cred in _isa_secrets.frontend.credentials %}{{ comma() }}{{ cred.user }}:{{ cred.pass | password_hash('bcrypt', _isa_secrets.frontend.salt) }}{% endfor %}"
+
+prod_ports:
+  - "8443:443"
+
+test_ports:
+  - "81:80"
+  - "8443:443"
+  - "8080:8080"
+
+ports: "{{ prod_ports if debug == false else test_ports }}"
 
 # Docker
 docker_engine_version: 1.7.1
@@ -21,7 +30,6 @@ docker_containers_cidr_range: 172.16.0.0/15
 
 # Prometheus
 # vars for prometheus
-prometheus_port: 9090
 prometheus_container_name: "prometheus"
 prometheus_image: "prom/prometheus"
 prometheus_version: "latest"
@@ -31,7 +39,5 @@ prometheus_version: "latest"
 traefik_state_path: "{{ install_path }}/traefik"
 traefik_container_name: traefik
 traefik_image: traefik
-#traefik_version: 1.7
 traefik_version: latest
-traefik_web_ui_port: 9199
-traefik_debug: '{{ dnspostfix == "-tst" }}'
+traefik_debug: "{{ debug }}" # By default it uses the global debug variable but we can activate here only traefik debug

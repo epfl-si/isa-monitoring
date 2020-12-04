@@ -1,4 +1,3 @@
-# ------------------------------------------------------------------ Directories
 - name: Create writable directories to be used as mount points
   file:
     path: "{{ item }}"
@@ -8,7 +7,6 @@
     - "{{ install_path }}/prometheus"
     - "{{ data_path }}/prometheus"
 
-# -------------------------------------------------------------------- Templates
 - name: Copy prometheus template configs
   template:
     src: "prometheus/{{ item }}"
@@ -23,6 +21,7 @@
   community.docker.docker_container:
     name: "{{ prometheus_container_name }}"
     image: "{{ prometheus_image }}:{{ prometheus_version }}"
+    container_default_behavior: compatibility
     links:
       - apache_exporter
     command: >-
@@ -30,26 +29,3 @@
     volumes:
       - "{{ install_path }}/prometheus:/etc/prometheus"
       - "{{ data_path }}/prometheus:/prometheus"
-
-#network_mode: "host"
-#links:
-#  - apache_exporter
-#    networks:
-#      - name: "epfl"
-#--web.route-prefix=/prom/
-#--web.external-url=https://isaqualite.epfl.ch/prom
-    #  --web.route-prefix=/prom
-    #- "{{ data_path }}/prometheus:/prometheus"
-    # command: >-
-    #   --config.file=/etc/prometheus/prometheus.yml
-    #   --web.external-url=https://prometheus{{ dnspostfix }}.{{ frontend.domain }}
-    #   {% if runenv == "isa_qal" %}
-    #     --log.level=debug
-    #   {% endif %}
-    # detach: yes
-    # restart_policy: unless-stopped
-    
-    # log_driver: json-file
-    # log_options:
-    #   max-size: 50m
-    #   max-file: "3"

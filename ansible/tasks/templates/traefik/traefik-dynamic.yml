@@ -1,3 +1,15 @@
+tls:
+  certificates:
+    - certFile: "/etc/traefik/ssl/cert.pem"
+      keyFile: "/etc/traefik/ssl/privkey.pem"
+      stores:
+        - default
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/etc/traefik/ssl/cert.pem"
+        keyFile: "/etc/traefik/ssl/privkey.pem"
+
 http:
   # Add the router
   routers:
@@ -8,19 +20,20 @@ http:
       - isa-basic-auth
       service: service-isa
       rule: "PathPrefix(`/`)"
-    # router1:
-    #   entryPoints:
-    #   - websecure
-    #   tls: {}
-    #   service: service-isa
-    #   rule: "PathPrefix(`/`)"
+    router1:
+      entryPoints:
+      - websecure
+      middlewares:
+      - isa-basic-auth
+      tls: {}
+      service: service-isa
+      rule: "PathPrefix(`/`)"
 
   # Add the middleware
   middlewares:
     isa-basic-auth:
       basicAuth:
-        users:
-        - user:$apr1$q8eZFHjF$Fvmkk//V6Btlaf2i/ju5n/
+        users: "{{ frontend.htpass }}"
 
   # Add the service
   services:
@@ -28,13 +41,3 @@ http:
       loadBalancer:
         servers:
         - url: http://prometheus:9090/
-
-# tls:
-#   certificates:
-#     - certFile: /srv/isa/traefik/ssl/cert.pem
-#       keyFile: /srv/isa/traefik/ssl/privkey.pem
-#   stores:
-#     default:
-#       defaultCertificate:
-#         - certFile: /srv/isa/traefik/ssl/cert.pem
-#         - keyFile: /srv/isa/traefik/ssl/privkey.pem

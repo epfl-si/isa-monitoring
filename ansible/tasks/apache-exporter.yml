@@ -2,5 +2,7 @@
   community.docker.docker_container:
     name: apache_exporter
     image: solsson/prometheus-exporter-apache
+    container_default_behavior: compatibility
     command: >-
       --scrape_uri="http://{{ docker_host_ip }}/server-status?auto"
+    detach: yes

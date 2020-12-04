@@ -2,25 +2,27 @@
   iptables:
     chain: INPUT
     protocol: tcp
-    destination_port: 81
+    destination_port: "81"
     jump: ACCEPT
     action: insert
-    rule_num: 5
+    rule_num: "5"
+    state: "{{ 'absent' if debug == false else 'present' }}"
 
 - name: Open port 8080
   iptables:
     chain: INPUT
     protocol: tcp
-    destination_port: 8080
+    destination_port: "8080"
     jump: ACCEPT
     action: insert
-    rule_num: 5
+    rule_num: "5"
+    state: "{{ 'absent' if debug == false else 'present' }}"
 
 - name: Open port 8443
   iptables:
     chain: INPUT
     protocol: tcp
-    destination_port: 8443
+    destination_port: "8443"
     jump: ACCEPT
     action: insert
-    rule_num: 5
+    rule_num: "5"

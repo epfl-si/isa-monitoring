@@ -1,6 +1,7 @@
 - name: Install epel repository
   yum:
-    name: http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+    #name: http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+    name: http://vault.centos.org/6.10/extras/Source/SPackages/epel-release-6-8.src.rpm
 - name: Download docker RPM
   shell:
     creates: "/usr/local/RPMS/{{ docker_engine_rpm_name }}"
