@@ -6,6 +6,7 @@
     jump: ACCEPT
     action: insert
     rule_num: 5
+    state: "{{ 'absent' if debug == false else 'present' }}"
 
 - name: Open port 8080
   iptables:
@@ -15,6 +16,7 @@
     jump: ACCEPT
     action: insert
     rule_num: 5
+    state: "{{ 'absent' if debug == false else 'present' }}"
 
 - name: Open port 8443
   iptables:
