@@ -3,13 +3,16 @@ all:
     runenv: qal
     ansible_become: yes
     ansible_become_method: sudo
-    dnspostfix: "-tst"
 
 isa:
   children:
     isa_qal
+  vars:
+    debug: false
 
 isa_qal:
+  vars:
+    debug: true
   hosts:
     isaqal09: {}
     isaqal10: {}

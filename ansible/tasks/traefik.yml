@@ -55,10 +55,7 @@
      - apache_exporter
      - prometheus
     detach: yes
-    ports:
-      - "81:80"     # The HTTP port
-      - "8443:443"  # The HTTPs port
-      - "8080:8080"
+    ports: "{{ ports }}"
     volumes:
       - "{{ traefik_state_path }}/traefik.yml:/traefik.yml"
       - "{{ traefik_state_path }}/dynamic:/etc/traefik/dynamic"
