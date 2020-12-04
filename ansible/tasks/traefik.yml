@@ -29,24 +29,6 @@
   with_items:
     - traefik-dynamic.yml
 
-# - name: Copy private key
-#   template:
-#     src: "traefik/ssl/{{ item }}"
-#     dest: "{{ traefik_state_path }}/ssl/{{ item }}"
-#   tags:
-#     - traefik
-#   with_items:
-#     - privkey.pem
-
-# - name: Copy certificate
-#   template:
-#     src: "traefik/ssl/{{ item }}"
-#     dest: "{{ traefik_state_path }}/ssl/{{ item }}"
-#   tags:
-#     - traefik
-#   with_items:
-#     - cert.pem
-
 - name: Run traefik
   community.docker.docker_container:
     name: "{{ traefik_container_name }}"
