@@ -9,13 +9,26 @@
   tags:
     - traefik
   with_items:
-    - "{{ traefik_state_path }}/dynamic"
-    - "{{ data_path }}/traefik/acme/"
+    - "{{ traefik_path }}/dynamic"
+    - "{{ traefik_path }}/acme/"
+    - "{{ traefik_path }}/ssl/"
+
+- name: Generate private key if privkey.pem file doesn't exist
+  command:
+    chdir: "{{ traefik_path }}/ssl/"
+    cmd: openssl genrsa -out privkey.pem 2048
+    creates: "{{ traefik_path }}/ssl/privkey.pem"
+
+- name: Generate certificat if cert.pem file doesn't exist
+  command:
+    chdir: "{{ traefik_path }}/ssl/"
+    cmd: "openssl req -new -x509 -batch -subj \"/CN={{ inventory_hostname }}.epfl.ch\" -days 300000 -out cert.pem -key privkey.pem"
+    creates: "{{ traefik_path }}/ssl/cert.pem"
 
 - name: Copy traefik static config
   template:
     src: "traefik/traefik.yml"
-    dest: "{{ traefik_state_path }}/traefik.yml"
+    dest: "{{ traefik_path }}/traefik.yml"
   tags:
     - traefik
   register: _traefik_config
@@ -23,7 +36,7 @@
 - name: Copy traefik dynamic config
   template:
     src: "traefik/{{ item }}"
-    dest: "{{ traefik_state_path }}/dynamic/{{ item }}"
+    dest: "{{ traefik_path }}/dynamic/{{ item }}"
   tags:
     - traefik
   with_items:
@@ -33,15 +46,16 @@
   community.docker.docker_container:
     name: "{{ traefik_container_name }}"
     image: "{{ traefik_image }}:{{ traefik_version }}"
+    container_default_behavior: compatibility
     links:
      - apache_exporter
      - prometheus
     detach: yes
     ports: "{{ ports }}"
     volumes:
-      - "{{ traefik_state_path }}/traefik.yml:/traefik.yml"
-      - "{{ traefik_state_path }}/dynamic:/etc/traefik/dynamic"
-      - "{{ traefik_state_path }}/ssl:/etc/traefik/ssl:ro"
+      - "{{ traefik_path }}/traefik.yml:/traefik.yml"
+      - "{{ traefik_path }}/dynamic:/etc/traefik/dynamic"
+      - "{{ traefik_path }}/ssl:/etc/traefik/ssl:ro"
     log_driver: json-file
     log_options:
       max-size: 50m

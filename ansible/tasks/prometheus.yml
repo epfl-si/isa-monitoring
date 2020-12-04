@@ -4,17 +4,15 @@
     state: directory
     mode: "u=rwx,g=rwx,o=rwx"
   with_items:
-    - "{{ install_path }}/prometheus"
-    - "{{ data_path }}/prometheus"
+    - "{{ prometheus_path }}"
+    - "{{ prometheus_path }}/data"
 
 - name: Copy prometheus template configs
   template:
     src: "prometheus/{{ item }}"
-    dest: "{{ install_path }}/prometheus/{{ item }}"
+    dest: "{{ prometheus_path }}/{{ item }}"
   with_items:
     - prometheus.yml
-    #- rules/alert-all-the-time-for-tests.yml
-    #- rules/c2c_federate.yml
   register: _prometheus_template_file
 
 - name: Run prometheus
@@ -27,5 +25,5 @@
     command: >-
       --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - "{{ install_path }}/prometheus:/etc/prometheus"
-      - "{{ data_path }}/prometheus:/prometheus"
+      - "{{ prometheus_path }}:/etc/prometheus"
+      - "{{ prometheus_path }}/data:/prometheus"

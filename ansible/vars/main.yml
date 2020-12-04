@@ -1,5 +1,6 @@
 install_path: '/srv/isa'
-data_path: "/srv/isa/prometheus-data"
+prometheus_path: "{{ install_path }}/prometheus"
+traefik_path: "{{ install_path }}/traefik"
 
 _isa_secrets: "{{ lookup('file', '/keybase/team/epfl_isa/ansible_isa_monitoring_secrets.yml') | from_yaml }}"
 
@@ -36,7 +37,6 @@ prometheus_version: "latest"
 
 # Traefik
 # vars file for idevfsd-traefik
-traefik_state_path: "{{ install_path }}/traefik"
 traefik_container_name: traefik
 traefik_image: traefik
 traefik_version: latest
