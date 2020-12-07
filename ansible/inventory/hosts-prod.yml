@@ -1,0 +1,17 @@
+all:
+  vars:
+    runenv: prod
+    ansible_become: yes
+    ansible_become_method: sudo
+
+isa:
+  children:
+    isa_prod
+  vars:
+    debug: false
+
+isa_prod:
+  vars:
+    debug: false
+  hosts:
+    isaqal09: {} #TODO: change host name by the host prod name
