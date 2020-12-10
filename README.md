@@ -117,8 +117,43 @@ Il s'agit donc d'une "configuration as code"
 
 ### Prérequis 
 
-- Installer ansible
-- Récupérer les sources de https://github.com/epfl-si/isa-monitoring
+Pour pouvoir effectuer le déploiement, il faut: 
+
+- Installer ansible (sur la machine de l'opérateur)
+- Récupérer les sources de https://github.com/epfl-si/isa-monitoring (sur la machine de l'opérateur)
+- Avoir un accès SSH aux serveurs cibles (Voir la section Tremplin ci-dessous)
+- Appartenir à la team epfl_isa de keybase (pour la lecture des secrets)
+
+#### Tremplin
+
+- Créer un compte sur https://tremplin.epfl.ch/.
+  Pour plus d'infos: https://tremplin.epfl.ch/ssh.html
+- Ensuite dans le fichier `~/.ssh/config` ajouter cela:
+
+```
+Host isaqal09 isaqal10
+     User <username>
+     ProxyCommand /bin/nc -x 127.0.0.1:3333 %h %p
+
+Host isaqal09-proxy
+     Hostname isaqal09
+     DynamicForward 3333
+     User <username>
+     ProxyJump <sciper>@tremplin.epfl.ch%    
+```
+
+Note: Il faut remplacer <username> et <sciper> par vos données
+
+Il est maintenant possible de se connecter aux machines en faisant:
+
+- `ssh isaqal09-proxy`
+- `ssh isaqal10`
+
+#### via Ansible
+
+Pour que ansible puisse se connecter aux serveurs, il faut toujours avoir la commande suivante lancée dans un terminal
+
+`ssh isaqal09-proxy`
 
 ### Déploiement
 
