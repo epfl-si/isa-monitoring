@@ -14,4 +14,7 @@ isa_prod:
   vars:
     debug: false
   hosts:
-    isaqal09: {} #TODO: change host name by the host prod name
+    isaprd09: {}
+    isaprd10: {}
+    isaprd11: {}
+    isaprd12: {}
