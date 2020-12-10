@@ -120,7 +120,7 @@ Il s'agit donc d'une "configuration as code"
 - Installer ansible
 - Récupérer les sources de https://github.com/epfl-si/isa-monitoring
 
-### Déployement
+### Déploiement
 
 La commande ci-dessous vous permet de déployer l'ensemble de la configuration sur les serveurs 'qualité' c'est à dire les hosts `isaqal09` et `isaqal10`
 
@@ -139,3 +139,54 @@ Pour déployer sur les serveurs de production, il faudra modifier le fichier:
 ```
 ./ansible/isasible --prod
 ```
+### Les différentes étapes du déploiement
+
+#### Étape 1: Installation des dépendances/paquets python
+
+Dans cette étape, on installe pip et quelques dépendances python (urllib3, request, docker-py)
+
+#### Étape 2: Installation de docker
+
+Dans cette étape, on télécharge, on installe et on lance Docker
+
+#### Étape 3: Modification des règles iptables
+
+Dans cette étape, on configure les règles iptables pour la gestion des ports suivants:
+- en production, seul le port 8443 sera ouvert
+- en isaqualité, les ports 8080 et 8443 sont ouverts
+
+#### Étape 4: Modification de la configuration Apache
+
+Dans cette étape, on modifie la configuration Apache pour avoir le bloc ci-dessous présent:
+
+```
+# BEGIN apache server status
+<Location /server-status>
+  SetHandler server-status
+
+  Order Deny,Allow
+  Deny from all
+  # Allow from both Docker containers and localhost:
+  Allow from 127.0.0.1 172.16.0.0/15
+</Location>
+# END apache server status
+```
+dans le fichier /etc/httpd/conf.d/EPFL_isa.conf
+
+#### Étape 5: Installation de Apache Exporter
+
+Dans cette étape, on lance le conteneur docker Apache Exporter
+
+#### Étape 6: Installation de Prometheus
+
+Dans cette étape, on lance le conteneur docker Prometheus
+
+Sa configuration est présente dans le répertoire /srv/isa/prometheus
+
+#### Étape 7: Installation de Traefik
+
+Dans cette étape, on lance le conteneur docker Traefik
+
+Sa configuration est présente dans le répertoire /srv/isa/traefik.
+
+Dans le répertoire /srv/isa/traefik/ssl il y a la clé privé et le certificat SSL auto signé
