@@ -119,7 +119,6 @@ Il s'agit donc d'une "configuration as code"
 
 Pour pouvoir effectuer le déploiement, il faut: 
 
-- Installer ansible (sur la machine de l'opérateur)
 - Récupérer les sources de https://github.com/epfl-si/isa-monitoring (sur la machine de l'opérateur)
 - Avoir un accès SSH aux serveurs cibles (Voir la section Tremplin ci-dessous)
 - Appartenir à la team epfl_isa de keybase (pour la lecture des secrets)
