@@ -13,13 +13,13 @@
     - "{{ traefik_path }}/acme/"
     - "{{ traefik_path }}/ssl/"
 
-- name: Generate private key if privkey.pem file doesn't exist
+- name: Generate private key
   command:
     chdir: "{{ traefik_path }}/ssl/"
     cmd: openssl genrsa -out privkey.pem 2048
     creates: "{{ traefik_path }}/ssl/privkey.pem"
 
-- name: Generate certificat if cert.pem file doesn't exist
+- name: Generate certificat
   command:
     chdir: "{{ traefik_path }}/ssl/"
     cmd: "openssl req -new -x509 -batch -subj \"/CN={{ inventory_hostname }}.epfl.ch\" -days 300000 -out cert.pem -key privkey.pem"
