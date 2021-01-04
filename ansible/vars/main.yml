@@ -2,7 +2,9 @@ install_path: '/srv/isa'
 prometheus_path: "{{ install_path }}/prometheus"
 traefik_path: "{{ install_path }}/traefik"
 
-_isa_secrets: "{{ lookup('file', '/keybase/team/epfl_isa/ansible_isa_monitoring_secrets.yml') | from_yaml }}"
+
+_secrets_path: "/keybase/team/epfl_isa/ansible_isa_monitoring_{{ deployment }}_secrets.yml"
+_isa_secrets: "{{ lookup('file', _secrets_path) | from_yaml }}"
 
 frontend:
   htpass: "{% set comma = joiner(', ') %}{% for cred in _isa_secrets.frontend.credentials %}{{ comma() }}{{ cred.user }}:{{ cred.pass | password_hash('bcrypt', _isa_secrets.frontend.salt) }}{% endfor %}"

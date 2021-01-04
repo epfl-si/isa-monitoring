@@ -13,8 +13,9 @@ isa:
 isa_prod:
   vars:
     debug: false
+    deployment: prod
   hosts:
     isaprd09: {}
     isaprd10: {}
     isaprd11: {}
-    isaprd12: {}
+    #isaprd12: {}

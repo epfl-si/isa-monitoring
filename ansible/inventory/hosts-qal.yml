@@ -13,6 +13,7 @@ isa:
 isa_qal:
   vars:
     debug: true
+    deployment: qual
   hosts:
     isaqal09: {}
     isaqal10: {}
