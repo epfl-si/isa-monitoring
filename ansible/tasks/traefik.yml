@@ -46,6 +46,7 @@
   community.docker.docker_container:
     name: "{{ traefik_container_name }}"
     image: "{{ traefik_image }}:{{ traefik_version }}"
+    restart_policy: unless-stopped
     container_default_behavior: compatibility
     links:
      - apache_exporter
