@@ -32,7 +32,7 @@ Le but est de remonter des métriques du scoreboard d'Apache dans Prometheus et 
 Apache doit avoir le module status.
 
 ```
-[root@isaqal09 ~]# apachectl -t -D DUMP_MODULES | grep status 
+[root@isaqal09 ~]# apachectl -t -D DUMP_MODULES | grep status
  status_module (shared)
 Syntax OK
 ```
@@ -40,7 +40,7 @@ Syntax OK
 La configuration d'Apache est modifiée afin de pouvoir avoir:
 
 ```
-[root@isaqal09 ~]# curl http://localhost/server-status?auto 
+[root@isaqal09 ~]# curl http://localhost/server-status?auto
 Total Accesses: 6111
 Total kBytes: 28367
 CPULoad: .0694061
@@ -59,8 +59,8 @@ Scoreboard: _____W_____.........................................................
 
 'Apache exporter' tourne dans un conteneur docker.
 
-On peut se convaincre que apache_exporter fonctionne convenablement. 
-Pour cela, on se connecte au conteneur `apache_exporter` 
+On peut se convaincre que apache_exporter fonctionne convenablement.
+Pour cela, on se connecte au conteneur `apache_exporter`
 
 `docker exec -it apache_exporter sh`
 
@@ -77,7 +77,7 @@ metrics              100% |*****************************************************
 et enfin:
 
 ```
-/ # cat metrics 
+/ # cat metrics
 ....
 # TYPE apache_scoreboard gauge
 apache_scoreboard{state="closing"} 0
@@ -134,9 +134,9 @@ TODO: Ajouter les bonnes personnes (qui?) dans ce groupe
 Nous utilisons [Ansible](https://www.ansible.com/) pour mettre en place les conteneurs Docker et l'ensemble de la configuration nécessaire (configuration apache, gestion IPTables, certificat SSL, etc).
 Il s'agit donc d'une "configuration as code"
 
-### Prérequis 
+### Prérequis
 
-Pour pouvoir effectuer le déploiement, il faut: 
+Pour pouvoir effectuer le déploiement, il faut:
 
 - Récupérer les sources de https://github.com/epfl-si/isa-monitoring (sur la machine de l'opérateur)
 - Avoir un accès SSH aux serveurs cibles (Voir la section Tremplin ci-dessous)
