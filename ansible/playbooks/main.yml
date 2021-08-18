@@ -1,21 +1,7 @@
-- name: Check if environment is set
-  hosts: all
-  gather_facts: no   # Not yet
-  tasks:
-    -
-      debug:
-        msg: "Starting ansible with {{ runenv }} environment."
-
 - name: ISA
   hosts: all
   gather_facts: no   # Not yet
   tasks:
-    - debug:
-        msg: "{{ debug }}"
-      tags: debug
-    - debug:
-        msg: "{{ ports }}"
-      tags: debug
     - name: Install Python dependencies for Ansible
       import_tasks: ../tasks/ansible-deps.yml
       tags: deps
