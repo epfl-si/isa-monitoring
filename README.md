@@ -110,7 +110,7 @@ On peut accéder à l'interface de Prometheus à l'adresse suivante `https://isa
 
 <img src="doc/prometheus-queries.png" alt="Prometheus Queries" width="400"/>
 
-Prometheus tourne dans un conteur docker.
+Prometheus tourne dans un conteneur docker.
 
 ### Traefik
 
