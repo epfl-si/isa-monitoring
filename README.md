@@ -1,5 +1,24 @@
 # ISA Monitoring
 
+# Instructions pour l'opérateur
+
+## Maniement d'Ansible — Instructions spéciales pour `tremplin.epfl.ch`
+
+1. Faire figurer l'extrait suivant dans `~/.ssh/config` (remplacer 243371 par votre propre numéro SCIPER): <pre>Host isaprd09 isaprd10 isaprd11 isaprd12  isaqal09 isaqal10
+     User root
+     ForwardAgent yes
+     ProxyCommand /usr/bin/nc -x 127.0.0.1:3333 %h %p
+Host isaprd09-proxy
+     Hostname isaprd09
+     DynamicForward 3333
+     User root
+     ProxyJump 243371@tremplin.epfl.ch
+</pre>
+1. Dans un terminal dédié à cet usage, lancer <pre>ssh isaprd09-proxy</pre> et saisir votre mot de passe GASPAR à l'invite. Laisser ensuite ce shell ouvert pendant toute la durée des opérations<br>💡 Il n'est malheureusement pas possible d'automatiser cette partie; tremplin.epfl.ch n'accepte pas l'authentification ssh par clef publique.
+1. Lancer <pre>./ansible/isasible --prod</pre>
+
+# Documentation de conception
+
 ## But
 
 Le but est de remonter des métriques du scoreboard d'Apache dans Prometheus et Grafana.
