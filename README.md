@@ -157,7 +157,7 @@ Host isaqal09-proxy
      Hostname isaqal09
      DynamicForward 3333
      User <username>
-     ProxyJump <sciper>@tremplin.epfl.ch%    
+     ProxyJump <sciper>@tremplin.epfl.ch
 ```
 
 Note: Il faut remplacer <username> et <sciper> par vos données
