@@ -2,7 +2,8 @@
 
 # Instructions pour l'utilisateur
 
-Naviguer vers https://grafana-exopge.epfl.ch/d/isaprod/isaprod et s'authentifier
+Naviguer vers https://grafana-exopge.epfl.ch/d/isaprod/isaprod et s'authentifier.  
+_Note : dans le cas ou vous êtes membres de plusieurs organisations Grafana, assurez-vous de sélectionner `EPFL IS-Academia`._
 
 # Instructions pour l'opérateur
 
