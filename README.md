@@ -1,5 +1,9 @@
 # ISA Monitoring
 
+# Instructions pour l'utilisateur
+
+Naviguer vers https://grafana-exopge.epfl.ch/d/isaprod/isaprod et s'authentifier
+
 # Instructions pour l'opérateur
 
 ## Maniement d'Ansible — Instructions spéciales pour `tremplin.epfl.ch`
